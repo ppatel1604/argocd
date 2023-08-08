@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: budget-tracker
+spec:
+  generators:
+  - list:
+      elements:
+      - folder: client
+      - folder: backend
+      - folder: gateway
+  template:
+    metadata:
+      name: 'budget-tracker-{{folder}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+      source:
+        repoURL: git@github.com:ppatel1604/budget-tracker.git
+        targetRevision: HEAD
+        path: charts/{{folder}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: budget-tracker
