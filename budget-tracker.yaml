@@ -15,9 +15,14 @@ spec:
     spec:
       project: default
       syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            istio-injection: enabled
         automated:
           selfHeal: true
           prune: true
+        syncOptions:
+        - CreateNamespace=true
       source:
         repoURL: git@github.com:ppatel1604/budget-tracker.git
         targetRevision: HEAD
